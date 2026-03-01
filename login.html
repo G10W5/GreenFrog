@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenFrog Prijava</title>
+    <link rel="icon" type="image/png" href="/Images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(to bottom, #4b726e 0%, #574852 50%, #4b3d44 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: #574852;
+            border: 4px solid #77743b;
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            color: #ba9158;
+            text-shadow: 3px 3px 0 #4b3d44;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            background: #4b3d44;
+            border: 2px solid #77743b;
+            color: #847875;
+            font-size: 10px;
+            cursor: pointer;
+            text-align: center;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+            .tab.active {
+                background: #ba9158;
+                color: #4b3d44;
+                border-color: #ba9158;
+            }
+
+            .tab:hover {
+                background: #927441;
+                color: #4b3d44;
+            }
+
+        .form-container {
+            display: none;
+        }
+
+            .form-container.active {
+                display: block;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: #d1b187;
+            font-size: 9px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: #4b3d44;
+            border: 2px solid #77743b;
+            color: #d2c9a5;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            transition: border-color 0.3s;
+        }
+
+            .form-input:focus {
+                outline: none;
+                border-color: #ba9158;
+            }
+
+            .form-input::placeholder {
+                color: #847875;
+            }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: #ba9158;
+            border: 3px solid #4b3d44;
+            color: #4b3d44;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Press Start 2P', cursive;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+            .submit-btn:hover {
+                background: #927441;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 0 #4b3d44;
+            }
+
+            .submit-btn:disabled {
+                background: #847875;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+        .error-message {
+            background: #79444a;
+            border: 2px solid #ae5d40;
+            color: #d1b187;
+            padding: 15px;
+            font-size: 8px;
+            margin-bottom: 20px;
+            display: none;
+            line-height: 1.8;
+        }
+
+            .error-message.show {
+                display: block;
+            }
+
+        .success-message {
+            background: #4b726e;
+            border: 2px solid #8caba1;
+            color: #d2c9a5;
+            padding: 15px;
+            font-size: 8px;
+            margin-bottom: 20px;
+            display: none;
+            line-height: 1.8;
+        }
+
+            .success-message.show {
+                display: block;
+            }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .back-link a {
+                color: #8caba1;
+                font-size: 8px;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+                .back-link a:hover {
+                    color: #d1b187;
+                }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+            .forgot-password a {
+                color: #8caba1;
+                font-size: 8px;
+                text-decoration: none;
+                transition: color 0.3s;
+                cursor: pointer;
+            }
+
+                .forgot-password a:hover {
+                    color: #ba9158;
+                }
+
+        .password-strength {
+            margin-top: 8px;
+            font-size: 7px;
+            color: #847875;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #4b3d44;
+            margin-top: 5px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s;
+            background: #847875;
+        }
+
+            .strength-fill.weak {
+                width: 33%;
+                background: #ae5d40;
+            }
+
+            .strength-fill.medium {
+                width: 66%;
+                background: #ba9158;
+            }
+
+            .strength-fill.strong {
+                width: 100%;
+                background: #8caba1;
+            }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 30px 20px;
+            }
+
+            .logo-text {
+                font-size: 18px;
+            }
+
+            .tab {
+                font-size: 8px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="logo">
+            <div class="logo-text">GreenFrog</div>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab active" data-tab="login">Prijava</div>
+            <div class="tab" data-tab="register">Registriraj se</div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <!-- LOGIN FORM -->
+        <div class="form-container active" id="loginForm">
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label class="form-label">E-pošta</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="ime@primer.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Geslo</label>
+                    <input type="password" class="form-input" id="loginPassword" placeholder="Vnesite geslo" required>
+                </div>
+                <button type="submit" class="submit-btn" id="loginBtn">Prijava</button>
+            </form>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div class="form-container" id="registerForm">
+            <form id="registerFormElement">
+                <div class="form-group">
+                    <label class="form-label">Uporabniško ime</label>
+                    <input type="text" class="form-input" id="registerUsername" placeholder="Izberite uporabniško ime" required minlength="3" maxlength="20">
+                    <div style="font-size: 7px; color: #847875; margin-top: 5px;">3–20 znakov</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-pošta</label>
+                    <input type="email" class="form-input" id="registerEmail" placeholder="ime@primer.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Geslo</label>
+                    <input type="password" class="form-input" id="registerPassword" placeholder="Ustvari geslo" required minlength="6">
+                    <div class="password-strength">
+                        <span id="strengthText">Moč gesla</span>
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Potrdite geslo</label>
+                    <input type="password" class="form-input" id="registerPasswordConfirm" placeholder="Ponovite geslo" required>
+                </div>
+                <button type="submit" class="submit-btn" id="registerBtn">Ustvari račun</button>
+            </form>
+        </div>
+
+        <!-- RESET PASSWORD FORM -->
+        <div class="form-container" id="resetForm">
+            <form id="resetFormElement">
+                <div class="form-group">
+                    <label class="form-label">E-pošta</label>
+                    <input type="email" class="form-input" id="resetEmail" placeholder="ime@primer.com" required>
+                    <div style="font-size: 7px; color: #847875; margin-top: 5px; line-height: 1.6;">
+                        Poslali vam bomo povezavo za ponastavitev gesla.
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn" id="resetBtn">Pošlji povezavo</button>
+            </form>
+        </div>
+
+        <div class="back-link">
+            <a href="/domov">← Nazaj na domačo stran</a>
+        </div>
+        
+        <div class="forgot-password">
+            <a id="forgotPasswordLink">Pozabljeno geslo?</a>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, updateProfile } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, setDoc, getDoc, query, where, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDJoxF53DdfRnAmUEAZirVRYZbmVUR2NEk",
+            authDomain: "greenfrog-3eded.firebaseapp.com",
+            projectId: "greenfrog-3eded",
+            storageBucket: "greenfrog-3eded.firebasestorage.app",
+            messagingSenderId: "1082470288033",
+            appId: "1:1082470288033:web:7251e9b3661d12bc9ebee0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const forms = document.querySelectorAll('.form-container');
+
+        function switchTab(tabName) {
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+            
+            const targetTab = Array.from(tabs).find(t => t.dataset.tab === tabName);
+            if (targetTab) targetTab.classList.add('active');
+            
+            document.getElementById(tabName + 'Form').classList.add('active');
+            hideMessages();
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+
+        // Forgot password link
+        document.getElementById('forgotPasswordLink').addEventListener('click', () => {
+            switchTab('reset');
+        });
+
+        // Password strength checker
+        const registerPassword = document.getElementById('registerPassword');
+        const strengthFill = document.getElementById('strengthFill');
+        const strengthText = document.getElementById('strengthText');
+
+        registerPassword.addEventListener('input', (e) => {
+            const password = e.target.value;
+            let strength = 0;
+
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+
+            strengthFill.className = 'strength-fill';
+            
+            if (strength <= 2) {
+                strengthFill.classList.add('weak');
+                strengthText.textContent = 'Šibko geslo';
+            } else if (strength <= 4) {
+                strengthFill.classList.add('medium');
+                strengthText.textContent = 'Srednje geslo';
+            } else {
+                strengthFill.classList.add('strong');
+                strengthText.textContent = 'Močno geslo';
+            }
+        });
+
+        // Helper functions
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            setTimeout(() => errorDiv.classList.remove('show'), 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.classList.add('show');
+            setTimeout(() => successDiv.classList.remove('show'), 5000);
+        }
+
+        function hideMessages() {
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('successMessage').classList.remove('show');
+        }
+
+        async function checkUsernameExists(username) {
+            const usernamesRef = collection(db, 'usernames');
+            const q = query(usernamesRef, where('username_lower', '==', username.toLowerCase()));
+            const querySnapshot = await getDocs(q);
+            return !querySnapshot.empty;
+        }
+
+        // REGISTER
+        document.getElementById('registerFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessages();
+
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim().toLowerCase();
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+            const registerBtn = document.getElementById('registerBtn');
+
+            // Validation
+            if (username.length < 3 || username.length > 20) {
+                showError('Uporabniško ime mora imeti 3-20 znakov');
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                showError('Uporabniško ime lahko vsebuje samo črke, številke in podčrtaje');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('Geslo mora imeti vsaj 6 znakov');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                showError('Gesli se ne ujemata');
+                return;
+            }
+
+            registerBtn.disabled = true;
+            registerBtn.textContent = 'Ustvarjanje...';
+
+            try {
+                // Check if username exists
+                const usernameExists = await checkUsernameExists(username);
+                if (usernameExists) {
+                    showError('Uporabniško ime je že zasedeno');
+                    registerBtn.disabled = false;
+                    registerBtn.textContent = 'Ustvari račun';
+                    return;
+                }
+
+                // Create user with real email
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Update profile with display name
+                await updateProfile(user, {
+                    displayName: username
+                });
+
+                // Store username mapping in Firestore
+                await setDoc(doc(db, 'usernames', user.uid), {
+                    username: username,
+                    username_lower: username.toLowerCase(),
+                    uid: user.uid,
+                    createdAt: new Date().toISOString()
+                });
+
+                // Store user profile in users collection
+                await setDoc(doc(db, 'users', user.uid), {
+                    username: username,
+                    email: email,
+                    createdAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString()
+                });
+
+                showSuccess('Račun uspešno ustvarjen! Preusmerjanje...');
+                
+                setTimeout(() => {
+                    window.location.href = '/domov';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Registration error:', error);
+                
+                let errorMessage = 'Registracija ni uspela. Poskusite znova.';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'Ta e-poštni naslov je že v uporabi';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Neveljaven e-poštni naslov';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Geslo je prešibko';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Napaka v omrežju. Preverite svojo povezavo.';
+                }
+                
+                showError(errorMessage);
+                registerBtn.disabled = false;
+                registerBtn.textContent = 'Ustvari račun';
+            }
+        });
+
+        // LOGIN
+        document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessages();
+
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (!email || !password) {
+                showError('Izpolnite vsa polja');
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Prijava...';
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Update last login
+                await setDoc(doc(db, 'users', user.uid), {
+                    lastLogin: new Date().toISOString()
+                }, { merge: true });
+
+                showSuccess('Prijava uspešna! Preusmerjanje...');
+                
+                setTimeout(() => {
+                    window.location.href = '/domov';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                let errorMessage = 'Prijava ni uspela. Poskusite znova.';
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                    errorMessage = 'Napačen e-naslov ali geslo';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Preveč neuspelih poskusov. Poskusite kasneje.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Napaka v omrežju. Preverite svojo povezavo.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Neveljaven e-poštni naslov';
+                }
+                
+                showError(errorMessage);
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Prijava';
+            }
+        });
+
+        // RESET PASSWORD
+        document.getElementById('resetFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessages();
+
+            const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+            const resetBtn = document.getElementById('resetBtn');
+
+            if (!email) {
+                showError('Vnesite e-poštni naslov');
+                return;
+            }
+
+            resetBtn.disabled = true;
+            resetBtn.textContent = 'Pošiljanje...';
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                
+                showSuccess('E-pošta za ponastavitev gesla je bila poslana! Preverite svoj nabiralnik.');
+                document.getElementById('resetEmail').value = '';
+                
+                // Switch back to login tab after 3 seconds
+                setTimeout(() => {
+                    switchTab('login');
+                }, 3000);
+
+            } catch (error) {
+                console.error('Password reset error:', error);
+                
+                let errorMessage = 'Ponastavitev gesla ni uspela. Poskusite znova.';
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'Račun s tem e-naslovom ne obstaja';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Neveljaven e-poštni naslov';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Napaka v omrežju. Preverite svojo povezavo.';
+                }
+                
+                showError(errorMessage);
+            } finally {
+                resetBtn.disabled = false;
+                resetBtn.textContent = 'Pošlji povezavo';
+            }
+        });
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, redirect to home
+                window.location.href = '/domov';
+            }
+        });
+    </script>
+</body>
+</html>

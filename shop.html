@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenFrog Trgovina</title>
+    <link rel="icon" type="image/png" href="/Images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            overflow-x: hidden;
+            background: #4b3d44;
+        }
+
+        /* NAVIGATION */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #574852;
+            padding: 20px 0;
+            z-index: 1000;
+            border-bottom: 4px solid #4b3d44;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LOGO SECTION */
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-image-pixel {
+            width: 60px;
+            height: 60px;
+            display: block;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        .logo-text {
+            color: #ba9158;
+            font-size: 14px;
+            text-shadow: 2px 2px 0 #4b3d44;
+            text-transform: uppercase;
+        }
+
+        /* NAVIGATION LINKS */
+        .navbar-menu {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
+            color: #d2c9a5;
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            background: #4d4539;
+            border: 3px solid #77743b;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            transition: all 0.1s;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+            .nav-link:hover {
+                background: #ba9158;
+                color: #4b3d44;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+            .nav-link.active {
+                background: #ba9158;
+                color: #4b3d44;
+                border-color: #927441;
+            }
+
+        /* LOGIN & USER AREA WRAPPER */
+        .navbar-login {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 15px;
+            min-width: fit-content;
+        }
+
+        #navRight {
+            display: contents; /* Da se otroci (login-link ali user-display) ravnajo neposredno po .navbar-login flexu */
+        }
+
+        /* KOŠARICA */
+        .cart-icon {
+            display: flex; /* Spremenjeno iz 'none', da jo vidiš */
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            padding: 5px;
+            transition: transform 0.1s;
+        }
+
+            .cart-icon:hover {
+                transform: scale(1.1);
+            }
+
+        .cart-count {
+            background: #ba9158;
+            color: #4b3d44;
+            font-size: 10px;
+            padding: 2px 6px;
+            border: 2px solid #4b3d44;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .user-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #79444a;
+            padding: 10px 20px;
+            border: 3px solid #4b3d44;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .username {
+            color: #d2c9a5;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .logout-btn {
+            color: #ba9158;
+            background: transparent;
+            border: none;
+            font-size: 9px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Press Start 2P', cursive;
+            transition: color 0.1s;
+            padding: 0;
+            margin-left: 5px;
+        }
+
+            .logout-btn:hover {
+                color: #ae5d40;
+            }
+
+        .login-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: #d2c9a5;
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            background: #79444a;
+            border: 3px solid #4b3d44;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            transition: all 0.1s;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+            .login-link:hover {
+                background: #ae5d40;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+        /* IKONA UPORABNIKA */
+        .user-icon {
+            width: 20px;
+            height: auto;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        /* CART ICON */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            background: #4b726e;
+            border: 3px solid #4b3d44;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            padding: 12px 15px;
+            transition: all 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .cart-icon:hover {
+                background: #8caba1;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ae5d40;
+            color: #fff;
+            font-size: 8px;
+            padding: 2px 6px;
+            border-radius: 2px;
+            border: 2px solid #4b3d44;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* HAMBURGER MENU */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: #4d4539;
+            border: 3px solid #77743b;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+            .hamburger:hover {
+                background: #ba9158;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background: #d2c9a5;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* MOBILE MENU */
+        @media (max-width: 968px) {
+            .navbar-menu {
+                position: fixed;
+                top: 100px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 100px);
+                background: #574852;
+                flex-direction: column;
+                padding: 30px 20px;
+                gap: 15px;
+                transition: left 0.3s ease;
+                border-top: 4px solid #4b3d44;
+                overflow-y: auto;
+            }
+
+                .navbar-menu.active {
+                    left: 0;
+                }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+                font-size: 12px;
+                padding: 15px 20px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .navbar-login {
+                order: -1;
+            }
+
+            .logo-text {
+                font-size: 12px;
+            }
+
+            .logo-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                display: none;
+            }
+
+            .login-link {
+                padding: 12px 15px;
+                font-size: 10px;
+            }
+
+            .cart-icon {
+                padding: 12px;
+            }
+        }
+
+        /* CART ICON */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+            .cart-icon:hover {
+                transform: scale(1.1);
+            }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ae5d40;
+            color: #fff;
+            font-size: 8px;
+            padding: 2px 6px;
+            border-radius: 2px;
+            border: 2px solid #4b3d44;
+        }
+
+        /* CART MODAL */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+            .cart-modal.active {
+                display: flex;
+            }
+
+        .cart-content {
+            background: #574852;
+            border: 4px solid #ba9158;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #77743b;
+        }
+
+        .cart-title {
+            color: #ba9158;
+            font-size: 16px;
+        }
+
+        .cart-close {
+            background: transparent;
+            border: none;
+            color: #d1b187;
+            font-size: 20px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            transition: color 0.3s;
+        }
+
+            .cart-close:hover {
+                color: #ae5d40;
+            }
+
+        .cart-items {
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #4b3d44;
+            border: 2px solid #77743b;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            color: #d1b187;
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #8caba1;
+            font-size: 9px;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 20px;
+        }
+
+        .qty-btn {
+            background: #77743b;
+            border: 2px solid #4b3d44;
+            color: #d1b187;
+            width: 25px;
+            height: 25px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            transition: all 0.3s;
+        }
+
+            .qty-btn:hover {
+                background: #ba9158;
+                color: #4b3d44;
+            }
+
+        .qty-number {
+            color: #d1b187;
+            font-size: 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-item-remove {
+            background: #ae5d40;
+            border: 2px solid #4b3d44;
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 8px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            transition: all 0.3s;
+        }
+
+            .cart-item-remove:hover {
+                background: #8b4a33;
+            }
+
+        .cart-empty {
+            text-align: center;
+            color: #847875;
+            font-size: 10px;
+            padding: 40px 20px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #4b3d44;
+            border: 2px solid #77743b;
+            margin-bottom: 20px;
+        }
+
+        .cart-total-label {
+            color: #d1b187;
+            font-size: 12px;
+        }
+
+        .cart-total-amount {
+            color: #ba9158;
+            font-size: 14px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #ba9158;
+            border: 3px solid #4b3d44;
+            color: #4b3d44;
+            padding: 15px;
+            font-size: 10px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+            .checkout-btn:hover {
+                background: #927441;
+                transform: translateY(-2px);
+            }
+
+            .checkout-btn:disabled {
+                background: #847875;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+        /* HEADER */
+        .shop-header {
+            padding: 180px 20px 100px;
+            text-align: center;
+            background: linear-gradient(to bottom, #4b726e 0%, #574852 100%);
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .shop-title {
+            font-size: 48px;
+            color: #8caba1;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            text-shadow: 4px 4px 0 #4b3d44;
+            letter-spacing: 4px;
+        }
+
+        .shop-subtitle {
+            font-size: 12px;
+            color: #d2c9a5;
+            line-height: 2.2;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .header-divider {
+            width: 200px;
+            height: 4px;
+            background: #ba9158;
+            margin: 0 auto;
+            position: relative;
+        }
+
+            .header-divider::before,
+            .header-divider::after {
+                content: '';
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                background: #ba9158;
+                top: -4px;
+            }
+
+            .header-divider::before {
+                left: -16px;
+            }
+
+            .header-divider::after {
+                right: -16px;
+            }
+
+        /* PIXEL TRANSITION */
+        .pixel-transition {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 70;
+            pointer-events: none;
+            overflow: hidden;
+            line-height: 0;
+            font-size: 0;
+            bottom: -1px;
+            transform: scaleY(-1);
+        }
+
+        .pixel-row {
+            width: 100%;
+            height: 8px;
+            line-height: 0;
+            font-size: 0;
+            white-space: nowrap;
+        }
+
+        .pixel-block {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: currentColor;
+            vertical-align: top;
+        }
+
+        /* FILTER SECTION */
+        .filter-section {
+            background: #4b3d44;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #77743b;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #574852;
+            border: 3px solid #77743b;
+            color: #d1b187;
+            padding: 12px 25px;
+            font-size: 9px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+            .filter-btn:hover {
+                background: #ba9158;
+                color: #4b3d44;
+                transform: translateY(-2px);
+            }
+
+            .filter-btn.active {
+                background: #ba9158;
+                color: #4b3d44;
+                border-color: #927441;
+            }
+
+        /* PRODUCTS SECTION */
+        .products-section {
+            background: #4d4539;
+            padding: 80px 20px 100px;
+            min-height: 100vh;
+        }
+
+        .products-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: #574852;
+            border: 4px solid #77743b;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+            .product-card:hover {
+                border-color: #ba9158;
+                transform: translateY(-5px);
+            }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #4b3d44;
+            border: 3px solid #ae5d40;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .product-img:hover {
+                transform: scale(1.1);
+            }
+
+        .product-placeholder {
+            color: #847875;
+            font-size: 10px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ae5d40;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 7px;
+            text-transform: uppercase;
+            border: 2px solid #4b3d44;
+        }
+
+            .product-badge.new {
+                background: #ba9158;
+            }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-category {
+            color: #8caba1;
+            font-size: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .product-name {
+            color: #d1b187;
+            font-size: 11px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .product-price {
+            color: #ba9158;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: #ba9158;
+            border: 3px solid #4b3d44;
+            color: #4b3d44;
+            padding: 12px;
+            font-size: 9px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+            .add-to-cart-btn:hover {
+                background: #927441;
+                transform: translateY(-2px);
+            }
+
+            .add-to-cart-btn:active {
+                transform: translateY(0);
+            }
+
+        /* FOOTER */
+        .footer {
+            background: #4d4539;
+            padding: 60px 20px 30px;
+            border-top: 3px solid #77743b;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: #ba9158;
+            font-size: 12px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #8caba1;
+            font-size: 9px;
+            line-height: 2;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+            .footer-section a:hover {
+                color: #d1b187;
+            }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #77743b;
+            color: #847875;
+            font-size: 8px;
+        }
+
+        /* PRODUCT MODAL */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 350;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+            .product-modal.active {
+                display: flex;
+            }
+
+        .product-modal-content {
+            background: #574852;
+            border: 4px solid #ba9158;
+            padding: 0;
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 3px solid #77743b;
+            background: #4b3d44;
+        }
+
+        .product-modal-title {
+            color: #ba9158;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .product-modal-close {
+            background: transparent;
+            border: none;
+            color: #d1b187;
+            font-size: 24px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            transition: color 0.3s;
+            padding: 0;
+            line-height: 1;
+        }
+
+            .product-modal-close:hover {
+                color: #ae5d40;
+            }
+
+        .product-modal-body {
+            display: flex;
+            gap: 30px;
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .product-modal-image {
+            flex: 0 0 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #4b3d44;
+            border: 3px solid #ae5d40;
+            padding: 20px;
+            position: relative;
+        }
+
+            .product-modal-image img {
+                max-width: 100%;
+                max-height: 400px;
+                object-fit: contain;
+            }
+
+        .product-modal-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product-modal-section {
+            background: #4b3d44;
+            border: 3px solid #77743b;
+            padding: 20px;
+        }
+
+        .product-modal-section-title {
+            color: #ba9158;
+            font-size: 11px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .product-modal-description {
+            color: #d1b187;
+            font-size: 9px;
+            line-height: 1.8;
+        }
+
+        .product-modal-category {
+            color: #8caba1;
+            font-size: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .product-modal-price {
+            color: #ba9158;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product-modal-stock {
+            color: #8caba1;
+            font-size: 8px;
+            margin-bottom: 15px;
+        }
+
+        .product-modal-add-btn {
+            width: 100%;
+            background: #ba9158;
+            border: 3px solid #4b3d44;
+            color: #4b3d44;
+            padding: 15px;
+            font-size: 11px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+            .product-modal-add-btn:hover {
+                background: #927441;
+                transform: translateY(-2px);
+            }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-left,
+            .nav-right {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .shop-title {
+                font-size: 32px;
+            }
+
+            .shop-subtitle {
+                font-size: 11px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+
+            .cart-content {
+                padding: 20px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .cart-item-quantity {
+                margin: 10px 0;
+            }
+
+            .product-modal-body {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .product-modal-image {
+                flex: 0 0 auto;
+                max-height: 300px;
+            }
+
+                .product-modal-image img {
+                    max-height: 250px;
+                }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="/" class="navbar-logo">
+                <img src="Images/favicon.png" alt="GreenFrog Logo" class="logo-image-pixel">
+                <span class="logo-text">GreenFrog</span>
+            </a>
+
+            <!-- Hamburger Menu (Mobile) -->
+            <button class="hamburger" id="hamburger">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation Menu -->
+            <ul class="navbar-menu" id="navbarMenu">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Domov</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/forum" class="nav-link">Razprave</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/merch" class="nav-link active">Merch</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/igraj" class="nav-link">Igraj</a>
+                </li>
+            </ul>
+
+            <!-- Login -->
+            <div class="navbar-login">
+                <div id="navRight">
+                    <div class="cart-icon" id="cartIcon">
+                        <span style="font-size: 14px;">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                    <a href="/prijava" class="login-link" id="loginLink">
+                        <img src="Images/PlayerIcon.png" alt="Player Icon" class="user-icon">
+                        <span>Prijava</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CART MODAL -->
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 class="cart-title">Vaša košarica</h2>
+                <button class="cart-close" id="cartClose">×</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">Vaša košarica je prazna</div>
+            </div>
+            <div class="cart-total" id="cartTotalSection" style="display: none;">
+                <span class="cart-total-label">Skupaj:</span>
+                <span class="cart-total-amount" id="cartTotal">€0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" disabled>Nadaljuj k blagajni</button>
+        </div>
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <div class="product-modal-header">
+                <h2 class="product-modal-title" id="productModalName">Podrobnosti izdelka</h2>
+                <button class="product-modal-close" id="productModalClose">×</button>
+            </div>
+            <div class="product-modal-body">
+                <div class="product-modal-image">
+                    <img id="productModalImg" src="" alt="">
+                </div>
+                <div class="product-modal-info">
+                    <div class="product-modal-section">
+                        <div class="product-modal-category" id="productModalCategory"></div>
+                        <h3 class="product-modal-section-title">Opis</h3>
+                        <p class="product-modal-description" id="productModalDescription"></p>
+                    </div>
+                    <div class="product-modal-section">
+                        <div class="product-modal-price" id="productModalPrice"></div>
+                        <div class="product-modal-stock">Na zalogi</div>
+                        <button class="product-modal-add-btn" id="productModalAddBtn">Dodaj v košarico</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="shop-header">
+        <div class="header-content">
+            <h1 class="shop-title">Trgovina z izdelki</h1>
+            <p class="shop-subtitle">
+                Uradna GreenFrog trgovina - Podprite svojo najljubšo žabo!
+            </p>
+            <div class="header-divider"></div>
+        </div>
+        <div class="pixel-transition" style="color: #4b3d44;"></div>
+    </header>
+
+    <!-- FILTER SECTION -->
+    <section class="filter-section">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">Vsi izdelki</button>
+            <button class="filter-btn" data-filter="clothing">Oblačila</button>
+            <button class="filter-btn" data-filter="accessories">Dodatki</button>
+            <button class="filter-btn" data-filter="collectibles">Zbirateljski predmeti</button>
+            <button class="filter-btn" data-filter="drinks">Pijače</button>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products-section">
+        <div class="products-container">
+            <div class="products-grid" id="productsGrid">
+                <!-- Product 1: T-Shirt -->
+                <div class="product-card" data-category="clothing" data-id="tshirt" data-name="T-Shirt" data-price="24.99" data-description="Premium kakovostna bombažna majica z edinstvenim GreenFrog dizajnom. 100% bombaž, udobna za nošnjo, na voljo v različnih velikostih. Perfektna za vsakodnevno nošnjo ali gaming seje.">
+                    <div class="product-image">
+                        <span class="product-badge new">Novo</span>
+                        <img src="Images/t-shirt.png" alt="T-Shirt" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Oblačila</div>
+                        <div class="product-name">GreenFrog Kratka Majica</div>
+                        <div class="product-price">€24.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 2: Hoodie -->
+                <div class="product-card" data-category="clothing" data-id="hoodie" data-name="Hoodie" data-price="39.99" data-description="Topel in udoben hoodie z GreenFrog logotipom. Izdelan iz mehke, visokokakovostne tkanine s kapuco in kenguru žepom. Odličen za hladnejše dni in gaming maraton.">
+                    <div class="product-image">
+                        <span class="product-badge new">Novo</span>
+                        <img src="Images/Hoodie.png" alt="Hoodie" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Oblačila</div>
+                        <div class="product-name">GreenFrog Hoodie</div>
+                        <div class="product-price">€39.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 3: Umbrella -->
+                <div class="product-card" data-category="accessories" data-id="umbrella" data-name="GreenFrog Umbrella" data-price="19.99" data-description="Odporen dežnik z GreenFrog dizajnom. Velik dovolj za popolno zaščito, lahek za prenašanje. Avtomatski mehanizem za enostavno odpiranje. Popoln za deževen dan!">
+                    <div class="product-image">
+                        <img src="Images/GreenFrog_Umbrella.png" alt="Umbrella" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Dodatki</div>
+                        <div class="product-name">GreenFrog Dežnik</div>
+                        <div class="product-price">€19.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 4: Shopping Bag -->
+                <div class="product-card" data-category="accessories" data-id="shopping-bag" data-name="Shopping Bag" data-price="14.99" data-description="Ekološka nakupovalna vrečka iz trajnostnih materialov. Močna, večkratna uporaba, velika prostornina. Nosit lahko tudi težje predmete. Pokažite svojo podporo GreenFrog skupnosti!">
+                    <div class="product-image">
+                        <img src="Images/GreenFrog_ShoppingBag.png" alt="Shopping Bag" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Dodatki</div>
+                        <div class="product-name">Nakupovalna vrečka</div>
+                        <div class="product-price">€14.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 5: Energy Drink -->
+                <div class="product-card" data-category="drinks" data-id="energy-drink" data-name="Green Frog Energy Drink - Swamp Punch" data-price="3.99" data-description="Osvežujoča energijska pijača z edinstvenim okusom 'Swamp Punch'. Napolni te z energijo za dolgotrajne gaming seje. Vsebuje kofein, taurin in B-vitamine za maksimalno koncentracijo.">
+                    <div class="product-image">
+                        <span class="product-badge new">Novo</span>
+                        <img src="Images/GreenFrog_Can.png" alt="Swamp Punch Energy Drink" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Pijače</div>
+                        <div class="product-name">Energy Drink - Swamp Punch</div>
+                        <div class="product-price">€3.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 6: Water Bottle -->
+                <div class="product-card" data-category="accessories" data-id="water-bottle" data-name="Water Drinking Bottle" data-price="16.99" data-description="Steklenica za vodo iz nerjavnega jekla s GreenFrog logotipom. Ohranja temperaturo pijače do 24 ur. Brez BPA, varno za uporabo. Kapaciteta 750ml. Idealna za šport in vsakodnevno uporabo.">
+                    <div class="product-image">
+                        <img src="Images/GreenFrog_Bottle.png" alt="Water Bottle" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Dodatki</div>
+                        <div class="product-name">GreenFrog Steklenica za Vodo</div>
+                        <div class="product-price">€16.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 7: Vinyl Soundtrack -->
+                <div class="product-card" data-category="collectibles" data-id="vinyl" data-name="Vinyl Soundtrack" data-price="29.99" data-description="Uraden GreenFrog soundtrack na vinilu. Vsebuje vso igro glasbo in ekskluzivne remixe. Limitirana izdaja za prave zbiralce. Visokokakovostna 180g vinilna plošča v premium ovitku.">
+                    <div class="product-image">
+                        <span class="product-badge new">Novo</span>
+                        <img src="Images/Vinyl.png" alt="Vinyl Soundtrack" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Zbirateljski predmeti</div>
+                        <div class="product-name">GreenFrog Vinilski Soundtrack</div>
+                        <div class="product-price">€29.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 8: Bracelet -->
+                <div class="product-card" data-category="accessories" data-id="bracelet" data-name="GreenFrog Bracelet" data-price="9.99" data-description="Elegantna zapestnica s GreenFrog simbolom. Izdelana iz kakovostnega materiala, nastavljiva velikost. Idealen dodatek za vsakodnevno nošnjo ali darilo za fane GreenFrog skupnosti.">
+                    <div class="product-image">
+                        <img src="Images/BraceletFrog.png" alt="Bracelet" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Dodatki</div>
+                        <div class="product-name">GreenFrog Zapestnica</div>
+                        <div class="product-price">€9.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 9: Plushie -->
+                <div class="product-card" data-category="collectibles" data-id="plushie" data-name="GreenFrog Plushie" data-price="29.99" data-description="Mehak plišasti GreenFrog maskota. Visokokakovostni materiali, idealen za objemanje. Višina približno 30cm. Popolno darilo za fane vseh starosti ali kot dekoracija v gaming sobi!">
+                    <div class="product-image">
+                        <span class="product-badge new">Novo</span>
+                        <img src="Images/Plushie.png" alt="Plushie" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Zbirateljski predmeti</div>
+                        <div class="product-name">GreenFrog Plushie</div>
+                        <div class="product-price">€29.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+
+                <!-- Product 10: Mug -->
+                <div class="product-card" data-category="accessories" data-id="mug" data-name="GreenFrog Mug" data-price="12.99" data-description="Keramična skodelica z GreenFrog motivom. Kapaciteta 350ml, primerna za kavo, čaj ali kakao. Odporna na pomivalni stroj in mikrovalovno pečico. Začnite jutro z GreenFrog!">
+                    <div class="product-image">
+                        <img src="Images/Mugfrog.png" alt="Mug" class="product-img">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Dodatki</div>
+                        <div class="product-name">GreenFrog Skodelica</div>
+                        <div class="product-price">€12.99</div>
+                        <button class="add-to-cart-btn">Dodaj v košarico</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GreenFrog</h3>
+                <p>Uradna trgovina z izdelki. Vsi iztržki podpirajo razvoj igre!</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hitre Povezave</h3>
+                <a href="/domov">Domov</a>
+                <a href="/forum">Razprave</a>
+                <a href="/domov#media">Medija</a>
+                <a href="/merch">Merch Trgovina</a>
+                <a href="/igraj">Igraj</a>
+            </div>
+            <div class="footer-section">
+                <h3>Info o Trgovini</h3>
+                <a href="/podpora#shipping">Dostava in Vračila</a>
+                <a href="/podpora#faq">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h3>Podpora</h3>
+                <a href="/podpora#contact">Kontakt</a>
+                <a href="/podpora#policy">Politika Zasebnosti</a>
+                <a href="/podpora#policy">Pogoji Storitve</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 GreenFrog. Vse pravice pridržane.
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyDJoxF53DdfRnAmUEAZirVRYZbmVUR2NEk",
+        authDomain: "greenfrog-3eded.firebaseapp.com",
+        projectId: "greenfrog-3eded",
+        storageBucket: "greenfrog-3eded.firebasestorage.app",
+        messagingSenderId: "1082470288033",
+        appId: "1:1082470288033:web:7251e9b3661d12bc9ebee0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+        const navRight = document.getElementById('navRight');
+        const cartIconHTML = `
+        <div class="cart-icon" id="cartIcon">
+        <span style="font-size: 14px;">🛒</span>
+        <span class="cart-count" id="cartCount">0</span>
+        </div>
+        `;
+
+        if (user) {
+        // User is logged in - show cart, username and logout button
+        const username = user.displayName || 'Player';
+        navRight.innerHTML = `
+        ${cartIconHTML}
+        <div class="user-display">
+        <img src="Images/PlayerIcon.png" class="user-icon" alt="User">
+        <span class="username">${username}</span>
+        <button class="logout-btn" id="logoutBtn">Izpis</button>
+        </div>
+        `;
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+        try {
+        await signOut(auth);
+        window.location.reload();
+        } catch (error) {
+        console.error('Logout error:', error);
+        }
+        });
+        } else {
+        navRight.innerHTML = `
+        ${cartIconHTML}
+        <a href="/prijava" class="nav-link" id="loginLink">Prijava</a>
+        `;
+        }
+
+        // Re-attach cart icon event listener after updating nav
+        const cartIconEl = document.getElementById('cartIcon');
+        if (cartIconEl) {
+        cartIconEl.addEventListener('click', window.openCart);
+        }
+
+        window.updateCartCount();
+        });
+    </script>
+
+    <script>
+        // Shopping Cart System
+        let cart = [];
+
+        // Load cart from memory
+        function loadCart() {
+        const savedCart = sessionStorage.getItem('greenfrog_cart');
+        if (savedCart) {
+        cart = JSON.parse(savedCart);
+        }
+        }
+
+        // Save cart to memory
+        function saveCart() {
+        sessionStorage.setItem('greenfrog_cart', JSON.stringify(cart));
+        }
+
+        // Update cart count
+        function updateCartCount() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountEl = document.getElementById('cartCount');
+        if (cartCountEl) {
+        cartCountEl.textContent = count;
+        }
+        }
+
+        // Make updateCartCount globally accessible
+        window.updateCartCount = updateCartCount;
+
+        // Update cart display
+        function updateCartDisplay() {
+        const cartItemsEl = document.getElementById('cartItems');
+        const cartTotalSection = document.getElementById('cartTotalSection');
+        const cartTotalEl = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<div class="cart-empty">Vaša košarica je prazna</div>';
+        cartTotalSection.style.display = 'none';
+        checkoutBtn.disabled = true;
+        return;
+        }
+
+        let total = 0;
+        let html = '';
+
+        cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        html += `
+        <div class="cart-item">
+        <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">€${item.price.toFixed(2)}</div>
+        </div>
+        <div class="cart-item-quantity">
+        <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+        <span class="qty-number">${item.quantity}</span>
+        <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">Odstrani</button>
+        </div>
+        `;
+        });
+
+        cartItemsEl.innerHTML = html;
+        cartTotalEl.textContent = `€${total.toFixed(2)}`;
+        cartTotalSection.style.display = 'flex';
+        checkoutBtn.disabled = false;
+        }
+
+        // Add to cart
+        function addToCart(productId, productName, productPrice) {
+        const existingItem = cart.find(item => item.id === productId);
+
+        if (existingItem) {
+        existingItem.quantity++;
+        } else {
+        cart.push({
+        id: productId,
+        name: productName,
+        price: productPrice,
+        quantity: 1
+        });
+        }
+
+        saveCart();
+        updateCartCount();
+        updateCartDisplay();
+        }
+
+        // Update quantity
+        window.updateQuantity = function(productId, change) {
+        const item = cart.find(item => item.id === productId);
+        if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+        removeFromCart(productId);
+        return;
+        }
+        saveCart();
+        updateCartCount();
+        updateCartDisplay();
+        }
+        };
+
+        // Remove from cart
+        window.removeFromCart = function(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        saveCart();
+        updateCartCount();
+        updateCartDisplay();
+
+        // Animate removal
+        gsap.from('#cartItems', {
+        opacity: 0.5,
+        duration: 0.3
+        });
+        };
+
+        // Generate pixel transitions - OPTIMIZED with resize handling
+        function generatePixelTransition(container) {
+        // Clear existing content
+        container.innerHTML = '';
+
+        const rows = 15;
+        const blocksPerRow = Math.ceil(window.innerWidth / 8);
+
+        for (let i = 0; i < rows; i++) {
+        const row = document.createElement('div');
+        row.className = 'pixel-row';
+
+        const density = i / rows;
+
+        for (let j = 0; j < blocksPerRow; j++) {
+        const block = document.createElement('div');
+        block.className = 'pixel-block';
+
+        const horizontalNoise = Math.random() * 0.15;
+        const randomThreshold = density + horizontalNoise;
+
+        if (randomThreshold < 0.7) {
+        block.style.opacity = '1';
+        } else {
+        block.style.opacity = '0';
+        }
+
+        row.appendChild(block);
+        }
+
+        container.appendChild(row);
+        }
+        }
+
+        // Initial generation
+        document.querySelectorAll('.pixel-transition').forEach(transition => {
+        generatePixelTransition(transition);
+        });
+
+        // Regenerate on window resize (debounced for performance)
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+        document.querySelectorAll('.pixel-transition').forEach(transition => {
+        generatePixelTransition(transition);
+        });
+        }, 250);
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter products
+        productCards.forEach(card => {
+        const category = card.dataset.category;
+        const isVisible = (filter === 'all' || category === filter);
+
+        if (isVisible) {
+        // This card should be visible
+        card.style.display = 'block';
+
+        if (gsap.getProperty(card, "opacity") < 0.5) {
+        gsap.to(card, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.4,
+        ease: 'power2.out'
+        });
+        }
+        } else {
+
+        if (gsap.getProperty(card, "opacity") > 0.5) {
+        gsap.to(card, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+        card.style.display = 'none';
+        }
+        });
+        }
+        }
+        });
+        });
+        });
+
+        // Add to cart button functionality
+        const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+
+        addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const card = btn.closest('.product-card');
+        const productId = card.dataset.id;
+        const productName = card.dataset.name;
+        const productPrice = parseFloat(card.dataset.price);
+
+        addToCart(productId, productName, productPrice);
+
+        // Animate cart icon
+        gsap.fromTo('.cart-icon',
+        { scale: 1 },
+        {
+        scale: 1.3,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        ease: 'power2.inOut'
+        }
+        );
+
+        // Animate button
+        const originalText = btn.textContent;
+        btn.textContent = 'Dodano!';
+        gsap.to(btn, {
+        backgroundColor: '#4b726e',
+        color: '#fff',
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => {
+        btn.textContent = originalText;
+        }
+        });
+        });
+        });
+
+        // Cart modal functionality
+        const cartModal = document.getElementById('cartModal');
+        const cartClose = document.getElementById('cartClose');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        // Open cart modal
+        function openCart() {
+        updateCartDisplay();
+        cartModal.classList.add('active');
+        }
+
+        // Make openCart globally accessible
+        window.openCart = openCart;
+
+        cartClose.addEventListener('click', () => {
+        cartModal.classList.remove('active');
+        });
+
+        cartModal.addEventListener('click', (e) => {
+        if (e.target === cartModal) {
+        cartModal.classList.remove('active');
+        }
+        });
+
+        checkoutBtn.addEventListener('click', () => {
+        if (cart.length > 0) {
+        // Save cart for checkout page
+        sessionStorage.setItem('greenfrog_checkout', JSON.stringify(cart));
+        // Redirect to checkout
+        window.location.href = '/checkout';
+        }
+        });
+
+        // 1. Set the initial "hidden" state
+        gsap.set('.product-card', {
+        opacity: 0,
+        y: 50
+        });
+
+        // 2. Animate to the final "visible" state
+        gsap.to('.product-card', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
+        delay: 0.1 // Small delay to ensure everything is ready
+        });
+
+        // Hover animations
+        productCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+        gsap.to(card, {
+        y: -8,
+        duration: 0.3,
+        ease: 'power2.out'
+        });
+        });
+
+        card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+        y: 0,
+        duration: 0.3,
+        ease: 'power2.in'
+        });
+        });
+        });
+
+        // Initialize cart on page load
+        loadCart();
+        updateCartCount();
+        updateCartDisplay();
+
+        // Attach initial cart icon listener
+        document.addEventListener('DOMContentLoaded', () => {
+        const initialCartIcon = document.getElementById('cartIcon');
+        if (initialCartIcon) {
+        initialCartIcon.addEventListener('click', openCart);
+        }
+        });
+
+        // Header animations
+        gsap.from('.shop-title', {
+        duration: 1.2,
+        y: -60,
+        ease: 'power3.out'
+        });
+
+        gsap.from('.shop-subtitle', {
+        duration: 1,
+        y: 40,
+        ease: 'power3.out',
+        delay: 0.3
+        });
+
+        gsap.from('.header-divider', {
+        duration: 0.8,
+        scaleX: 0,
+        ease: 'power3.out',
+        delay: 0.5
+        });
+
+        // Product Modal Functionality
+        const productModal = document.getElementById('productModal');
+        const productModalClose = document.getElementById('productModalClose');
+        const productModalName = document.getElementById('productModalName');
+        const productModalImg = document.getElementById('productModalImg');
+        const productModalCategory = document.getElementById('productModalCategory');
+        const productModalDescription = document.getElementById('productModalDescription');
+        const productModalPrice = document.getElementById('productModalPrice');
+        const productModalAddBtn = document.getElementById('productModalAddBtn');
+
+        let currentModalProduct = null;
+
+        // Open product modal when clicking on product image
+        document.querySelectorAll('.product-image').forEach((productImage) => {
+        productImage.addEventListener('click', (e) => {
+        const card = productImage.closest('.product-card');
+        const productId = card.dataset.id;
+        const productName = card.dataset.name;
+        const productPrice = parseFloat(card.dataset.price);
+        const productCategory = card.querySelector('.product-category').textContent;
+        const productDescription = card.dataset.description || 'Opisa ni na voljo.';
+        const productImgSrc = card.querySelector('.product-img').src;
+
+        // Store current product for add to cart
+        currentModalProduct = {
+        id: productId,
+        name: productName,
+        price: productPrice
+        };
+
+        // Update modal content
+        productModalName.textContent = productName;
+        productModalImg.src = productImgSrc;
+        productModalImg.alt = productName;
+        productModalCategory.textContent = productCategory;
+        productModalDescription.textContent = productDescription;
+        productModalPrice.textContent = `€${productPrice.toFixed(2)}`;
+
+        // Show modal with animation
+        productModal.classList.add('active');
+        gsap.from('.product-modal-content', {
+        scale: 0.9,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.out'
+        });
+        });
+        });
+
+        // Close product modal
+        productModalClose.addEventListener('click', () => {
+        productModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        productModal.addEventListener('click', (e) => {
+        if (e.target === productModal) {
+        productModal.classList.remove('active');
+        }
+        });
+
+        // Add to cart from product modal
+        productModalAddBtn.addEventListener('click', () => {
+        if (currentModalProduct) {
+        addToCart(currentModalProduct.id, currentModalProduct.name, currentModalProduct.price);
+
+        // Animate cart icon
+        gsap.fromTo('.cart-icon',
+        { scale: 1 },
+        {
+        scale: 1.3,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        ease: 'power2.inOut'
+        }
+        );
+
+        // Animate button
+        const originalText = productModalAddBtn.textContent;
+        productModalAddBtn.textContent = 'Dodano!';
+        gsap.to(productModalAddBtn, {
+        backgroundColor: '#4b726e',
+        color: '#fff',
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => {
+        productModalAddBtn.textContent = originalText;
+        }
+        });
+        }
+        });
+
+        // Hamburger Menu Functionality
+        const hamburger = document.getElementById('hamburger');
+        const navbarMenu = document.getElementById('navbarMenu');
+
+        hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navbarMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link (mobile)
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+        if (window.innerWidth <= 968) {
+        hamburger.classList.remove('active');
+        navbarMenu.classList.remove('active');
+        }
+        });
+        });
+
+        // Close menu when clicking outside (mobile)
+        document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 968) {
+        if (!hamburger.contains(e.target) && !navbarMenu.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navbarMenu.classList.remove('active');
+        }
+        }
+        });
+    </script>
+</body>
+</html>

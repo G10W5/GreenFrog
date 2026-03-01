@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenFrog</title>
+    <link rel="icon" type="image/png" href="/Images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            overflow-x: hidden;
+            background: #4b3d44;
+        }
+
+        /* NAVIGATION */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #574852;
+            padding: 20px 0;
+            z-index: 1000;
+            border-bottom: 4px solid #4b3d44;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LOGO SECTION */
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-image-pixel {
+            width: 60px;
+            height: 60px;
+            display: block;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        .logo-text {
+            color: #ba9158;
+            font-size: 14px;
+            text-shadow: 2px 2px 0 #4b3d44;
+            text-transform: uppercase;
+        }
+
+        /* NAVIGATION LINKS */
+        .navbar-menu {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
+            color: #d2c9a5;
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            background: #4d4539;
+            border: 3px solid #77743b;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            transition: all 0.1s;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+            .nav-link:hover {
+                background: #ba9158;
+                color: #4b3d44;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+            .nav-link.active {
+                background: #ba9158;
+                color: #4b3d44;
+                border-color: #927441;
+            }
+
+        /* LOGIN BUTTON */
+        .navbar-login {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #79444a;
+            padding: 10px 20px;
+            border: 3px solid #4b3d44;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+        }
+
+        .username {
+            color: #d2c9a5;
+            font-size: 11px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .logout-btn {
+            color: #ba9158;
+            background: transparent;
+            border: none;
+            font-size: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Press Start 2P', cursive;
+            transition: color 0.1s;
+            padding: 0;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+            .logout-btn:hover {
+                color: #ae5d40;
+                transform: translate(1px, 1px);
+            }
+
+        .login-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            color: #d2c9a5;
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            background: #79444a;
+            border: 3px solid #4b3d44;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            transition: all 0.1s;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+            .login-link:hover {
+                background: #ae5d40;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+        .user-icon {
+            width: 20px;
+            height: auto;
+            display: block;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        /* CART ICON */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            background: #4b726e;
+            border: 3px solid #4b3d44;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            padding: 12px 15px;
+            transition: all 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .cart-icon:hover {
+                background: #8caba1;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ae5d40;
+            color: #fff;
+            font-size: 8px;
+            padding: 2px 6px;
+            border-radius: 2px;
+            border: 2px solid #4b3d44;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* HAMBURGER MENU */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: #4d4539;
+            border: 3px solid #77743b;
+            border-bottom: 4px solid #4b3d44;
+            border-right: 4px solid #4b3d44;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+            .hamburger:hover {
+                background: #ba9158;
+                transform: translate(2px, 2px);
+                border-bottom: 3px solid #4b3d44;
+                border-right: 3px solid #4b3d44;
+            }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background: #d2c9a5;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* MOBILE MENU */
+        @media (max-width: 968px) {
+            .navbar-menu {
+                position: fixed;
+                top: 100px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 100px);
+                background: #574852;
+                flex-direction: column;
+                padding: 30px 20px;
+                gap: 15px;
+                transition: left 0.3s ease;
+                border-top: 4px solid #4b3d44;
+                overflow-y: auto;
+            }
+
+                .navbar-menu.active {
+                    left: 0;
+                }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+                font-size: 12px;
+                padding: 15px 20px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .navbar-login {
+                order: -1;
+            }
+
+            .logo-text {
+                font-size: 12px;
+            }
+
+            .logo-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                display: none;
+            }
+
+            .login-link {
+                padding: 12px 15px;
+                font-size: 10px;
+            }
+
+            .cart-icon {
+                padding: 12px;
+            }
+        }
+
+        /* PARALLAX HEADER */
+        .parallax-container {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            margin-top: 0;
+        }
+
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #4b726e 0%, #574852 50%, #4b3d44 100%);
+        }
+
+        .fog {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(139, 181, 161, 0.2), transparent);
+        }
+
+        .parallax-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            image-rendering: pixelated;
+        }
+
+        .layer-back {
+            background-image: url('Images/Mid-Far_BG.png');
+            z-index: 10;
+        }
+
+        .layer-mid {
+            background-image: url('Images/Mid_BG.png');
+            z-index: 1;
+        }
+
+        .layer-front {
+            background-image: url('Images/Front_BG.png');
+            z-index: 40;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 50;
+            width: 100%;
+        }
+
+        .title-image {
+            max-width: 600px;
+            width: 90%;
+            height: auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(8px 8px 0px #4b3d44);
+            display: block;
+            margin: 0 auto;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .title-image {
+            max-width: 600px;
+            width: 90%;
+            height: auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(8px 8px 0px #4b3d44);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .fireflies {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #d1b187;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #d1b187;
+            opacity: 0;
+        }
+
+        /* SECTIONS */
+        section {
+            position: relative;
+            z-index: 60;
+        }
+
+        .section-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('pattern-placeholder.png');
+            background-repeat: repeat;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        /* VIDEO SECTION */
+        .video-section {
+            background: #4b3d44;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .video-wrapper {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            width: 100%;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            width: 100%;
+            background: #574852;
+            border: 4px solid #77743b;
+            overflow: hidden;
+        }
+
+            .video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+
+        .video-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #847875;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .play-button {
+            padding: 18px 50px;
+            background: #ba9158;
+            border: 4px solid #4b3d44;
+            color: #4b3d44;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Press Start 2P', cursive;
+            transition: all 0.3s;
+        }
+
+            .play-button:hover {
+                background: #927441;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 0 #4b3d44;
+            }
+
+        /* QUOTE SECTION */
+        .quote-section {
+            background: #574852;
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-text {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #d1b187;
+            font-size: 20px;
+            line-height: 2;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 0 #4b3d44;
+        }
+
+        /* ABOUT SECTION */
+        .about-section {
+            background: #4d4539;
+            padding: 150px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #d1b187;
+            margin-bottom: 40px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .about-text {
+            color: #d2c9a5;
+            font-size: 14px;
+            line-height: 2.2;
+            text-align: center;
+        }
+
+        /* FEATURES SECTION */
+        .features-section {
+            background: #4b726e;
+            padding: 100px 20px 120px;
+            position: relative;
+        }
+
+        .features-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 80px;
+        }
+
+        .features-main-title {
+            font-size: 32px;
+            color: #8caba1;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .features-subtitle {
+            color: #d2c9a5;
+            font-size: 11px;
+            line-height: 2;
+        }
+
+        .features-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #574852;
+            padding: 60px;
+        }
+
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+            .feature-row:last-child {
+                margin-bottom: 0;
+            }
+
+            .feature-row.reverse {
+                direction: rtl;
+            }
+
+                .feature-row.reverse > * {
+                    direction: ltr;
+                }
+
+        .feature-image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #4b3d44;
+            border: 3px solid #77743b;
+            overflow: hidden;
+        }
+
+        .feature-gif-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .feature-gif-placeholder {
+            width: 100%;
+            height: 100%;
+        }
+
+        .feature-content {
+            padding: 0 20px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            color: #8caba1;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+            .feature-title::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 60px;
+                height: 3px;
+                background: #8caba1;
+            }
+
+        .feature-desc {
+            color: #d2c9a5;
+            font-size: 11px;
+            line-height: 2.2;
+        }
+
+        @media (max-width: 968px) {
+            .feature-row,
+            .feature-row.reverse {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                direction: ltr;
+            }
+
+            .features-container {
+                padding: 40px 30px;
+            }
+
+            .features-main-title {
+                font-size: 24px;
+            }
+        }
+
+        /* MEDIA GALLERY SECTION */
+        .gallery-section {
+            background: #79444a;
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-carousel {
+            position: relative;
+            max-width: 1200px;
+            margin: 60px auto 40px;
+            min-height: 400px;
+        }
+
+        .gallery-slide {
+            display: none;
+        }
+
+            .gallery-slide.active {
+                display: block;
+            }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .gallery-item {
+            aspect-ratio: 16/9;
+            background: #574852;
+            border: 4px solid #ae5d40;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #847875;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        /* PIXEL DOT NAVIGATION */
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .gallery-dot {
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .dot-pixel {
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid #4b3d44;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot:hover .dot-pixel {
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(1.4);
+        }
+
+        .gallery-dot.active .dot-pixel {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        /* GALLERY MODAL */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .gallery-modal.active {
+                display: flex;
+            }
+
+        .gallery-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 4px solid #ba9158;
+        }
+
+        .gallery-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: transparent;
+            border: none;
+            color: #d1b187;
+            font-size: 32px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            transition: color 0.3s;
+            padding: 0;
+            line-height: 1;
+        }
+
+            .gallery-modal-close:hover {
+                color: #ae5d40;
+            }
+
+        .gallery-modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(75, 61, 68, 0.8);
+            border: 3px solid #ba9158;
+            color: #d1b187;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .gallery-modal-arrow:hover {
+                background: #ba9158;
+                color: #4b3d44;
+            }
+
+            .gallery-modal-arrow.left {
+                left: -70px;
+            }
+
+            .gallery-modal-arrow.right {
+                right: -70px;
+            }
+
+        .gallery-modal-counter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d1b187;
+            font-size: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* PLAY NOW SECTION */
+        .play-now-section {
+            background: #4b3d44;
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        .play-now-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .play-now-title {
+            font-size: 32px;
+            color: #ba9158;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .play-now-text {
+            color: #d2c9a5;
+            font-size: 12px;
+            line-height: 2.2;
+            margin-bottom: 50px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #4d4539;
+            padding: 60px 20px 30px;
+            border-top: 3px solid #77743b;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: #ba9158;
+            font-size: 12px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #8caba1;
+            font-size: 9px;
+            line-height: 2;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+            .footer-section a:hover {
+                color: #d1b187;
+            }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #77743b;
+            color: #847875;
+            font-size: 8px;
+        }
+
+        .placeholder-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            text-align: center;
+            pointer-events: none;
+            width: 80%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-left,
+            .nav-right {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .quote-text {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .play-now-title {
+                font-size: 24px;
+            }
+
+            .gallery-modal-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+                .gallery-modal-arrow.left {
+                    left: 10px;
+                }
+
+                .gallery-modal-arrow.right {
+                    right: 10px;
+                }
+
+            .gallery-modal-close {
+                top: 10px;
+                right: 10px;
+                font-size: 24px;
+            }
+
+            .gallery-modal-counter {
+                bottom: 10px;
+            }
+        }
+
+        /* PIXEL TRANSITION EFFECT */
+        .pixel-transition {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 70;
+            pointer-events: none;
+            overflow: hidden;
+            line-height: 0;
+            font-size: 0;
+        }
+
+        .pixel-transition-top {
+            top: -1px;
+        }
+
+        .pixel-transition-bottom {
+            bottom: -1px;
+            transform: scaleY(-1);
+        }
+
+        .pixel-row {
+            width: 100%;
+            height: 8px;
+            line-height: 0;
+            font-size: 0;
+            white-space: nowrap;
+        }
+
+        .pixel-block {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: currentColor;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="/" class="navbar-logo">
+                <img src="Images/favicon.png" alt="GreenFrog Logo" class="logo-image-pixel">
+                <span class="logo-text">GreenFrog</span>
+            </a>
+
+            <!-- Hamburger Menu (Mobile) -->
+            <button class="hamburger" id="hamburger">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Navigation Menu -->
+            <ul class="navbar-menu" id="navbarMenu">
+                <li class="nav-item">
+                    <a href="#header" class="nav-link active">Domov</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/forum" class="nav-link">Razprave</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/merch" class="nav-link">Merch</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/igraj" class="nav-link">Igraj</a>
+                </li>
+            </ul>
+
+            <!-- Login -->
+            <div class="navbar-login">
+                <div class="cart-icon" id="cartIcon" style="display: none;">
+                    <span style="font-size: 14px;">🛒</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+
+                <div id="navRight">
+                    <a href="/prijava" class="login-link" id="loginLink">
+                        <img src="Images/PlayerIcon.png" alt="Player Icon" class="user-icon">
+                        <span>Prijava</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- GALLERY MODAL -->
+    <div class="gallery-modal" id="galleryModal">
+        <div class="gallery-modal-content">
+            <button class="gallery-modal-close" id="galleryModalClose">×</button>
+            <button class="gallery-modal-arrow left" id="galleryPrev">‹</button>
+            <img class="gallery-modal-image" id="galleryModalImage" src="" alt="">
+            <button class="gallery-modal-arrow right" id="galleryNext">›</button>
+            <div class="gallery-modal-counter" id="galleryCounter">1 / 12</div>
+        </div>
+    </div>
+
+    <!-- HEADER PARALLAX -->
+    <section id="header" class="parallax-container">
+        <div class="sky"></div>
+        <div class="fog"></div>
+
+        <div class="parallax-layer layer-back" data-speed="0.3">
+            <div class="placeholder-text"></div>
+        </div>
+
+        <div class="parallax-layer layer-mid" data-speed="0.5">
+            <div class="placeholder-text"></div>
+        </div>
+
+        <div class="title-container" data-speed="0.4">
+            <img src="Images/Game_Logo.png" alt="GreenFrog" class="title-image">
+            <div class="placeholder-text" style="position: relative; margin-top: 10px;"></div>
+        </div>
+
+        <div class="parallax-layer layer-front">
+        </div>
+    </section>
+
+    <!-- VIDEO SECTION -->
+    <section class="video-section">
+        <div class="video-wrapper">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Rd-qMC_AZPc"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        <a href="/igraj" class="play-button">Igraj ZDAJ!</a>
+    </section>
+
+    <!-- QUOTE SECTION -->
+    <section class="quote-section">
+        <div class="pixel-transition pixel-transition-top" style="color: #4b3d44;"></div>
+        <div class="section-pattern"></div>
+        <div class="quote-text">
+            "Vsak skok je preživetje. Vsak udarec jezika je zmaga. Tvoja pot skozi močvirje se začne zdaj."
+        </div>
+        <div class="pixel-transition pixel-transition-bottom" style="color: #574852;"></div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+        <div class="pixel-transition pixel-transition-top" style="color: #574852;"></div>
+        <div class="section-pattern"></div>
+        <div class="about-content">
+            <h2 class="section-title">O igri</h2>
+            <p class="about-text">
+                Dobrodošli v neizprosnem svetu GreenFrog! To ni le platformer – to je boj za golo preživetje. Kot žaba v mokriščih moraš nenehno paziti na svojo lakoto, saj te vsaka napaka lahko stane vsega.
+                <br><br>
+                <strong>Drvi</strong> mimo nevarnosti in lovi žuželke, da si nabereš zaloge hrane, ki jih lahko zaužiješ le v varnem zavetju <strong>Mudhole</strong> lukenj. Mudhole so tvoji edini checkpointi, kjer si povrneš moči, a pazi: če tvoja žaba strada in pogine, je tvoje poti konec. Brez milosti, brez drugih možnosti – če umreš, začneš celo pustolovščino čisto od začetka!
+            </p>
+        </div>
+        <div class="pixel-transition pixel-transition-bottom" style="color: #4d4539;"></div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features-section">
+        <div class="pixel-transition pixel-transition-top" style="color: #4d4539;"></div>
+        <div class="features-header">
+            <h2 class="features-main-title">Značilnosti</h2>
+            <p class="features-subtitle">
+                Obvladaj močvirje s hitrimi gibi in pretkano uporabo jezika v tej 2D platformski pustolovščini.
+            </p>
+        </div>
+
+        <div class="features-container">
+            <div class="feature-row">
+                <div class="feature-image-container">
+                    <div class="feature-gif-placeholder">
+                        <img src="Images/FrogDash.gif" alt="Frog dashing through the swamp" class="feature-gif">
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Eksplozivni gibi</h3>
+                    <p class="feature-desc">
+                        Uporabi "dash" za hitro premikanje skozi nevarno okolje. Izogibaj se smrtonosnim pastem in prehitro premaguj razdalje v mističnem močvirju z bliskovitimi refleksi.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-row reverse">
+                <div class="feature-image-container">
+                    <div class="feature-gif-placeholder">
+                        <img src="Images/BugEat.gif" alt="Frog eating a bug" class="feature-gif">
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Ulovi svojo malico</h3>
+                    <p class="feature-desc">
+                        Tvoj jezik je tvoje najmočnejše orodje. Izstreli ga in zgrabi sočne žuželke med letom, da si povrneš moči in energijo za nadaljnje podvige.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-image-container">
+                    <div class="feature-gif-placeholder">
+                        <img src="Images/FrogAttack.gif" alt="Frog attacking" class="feature-gif">
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Porivaj sovražnike v pasti</h3>
+                    <p class="feature-desc">
+                        Direkten spopad ni vedno najboljša izbira. Uporabi svoj jezik, da nasprotnike suneš stran od sebe in jih strateško potisneš naravnost v okoljske pasti ali brezno.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="pixel-transition pixel-transition-bottom" style="color: #4b726e;"></div>
+    </section>
+
+    <!-- MEDIA GALLERY SECTION -->
+    <section id="media" class="gallery-section">
+        <div class="pixel-transition pixel-transition-top" style="color: #4b726e;"></div>
+        <div class="section-pattern"></div>
+        <h2 class="section-title">Medijska Galerija</h2>
+
+        <div class="gallery-carousel">
+            <!-- Slide 1 -->
+            <div class="gallery-slide active">
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre1.png" alt="Screenshot 1" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre2.png" alt="Screenshot 2" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre3.png" alt="Screenshot 3" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre4.png" alt="Screenshot 4" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre5.png" alt="Screenshot 5" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre6.png" alt="Screenshot 6" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="gallery-slide">
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre7.png" alt="Screenshot 7" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre8.png" alt="Screenshot 8" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre9.png" alt="Screenshot 9" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre10.png" alt="Screenshot 10" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre11.png" alt="Screenshot 11" class="gallery-img">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Images/SlikaIgre12.png" alt="Screenshot 12" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pixel Dot Navigation -->
+        <div class="gallery-dots">
+            <button class="gallery-dot active" data-slide="0">
+                <span class="dot-pixel"></span>
+            </button>
+            <button class="gallery-dot" data-slide="1">
+                <span class="dot-pixel"></span>
+            </button>
+        </div>
+
+        <div class="pixel-transition pixel-transition-bottom" style="color: #79444a;"></div>
+    </section>
+
+    <section id="igraj" class="play-now-section">
+        <div class="pixel-transition pixel-transition-top" style="color: #79444a;"></div>
+        <div class="play-now-content">
+            <h2 class="play-now-title">Ste pripravljeni na skok?</h2>
+            <p class="play-now-text">
+                Skoči v akcijo z najbolj odbitim žabcem v močvirju! Premagaj nevarne ovire,
+                raziskuj skrivnostne kotičke in pokaži svoje platforming veščine v 2D svetu GreenFrog.
+            </p>
+            <a href="/igraj" class="play-button">Skoči v igro ZDAJ!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GreenFrog</h3>
+                <p>Ultimativni 2D platformer v močvirju. Obvladaj dash, uporabi jezik in strateško potisni sovražnike v njihovo pogubo!</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hitre Povezave</h3>
+                <a href="#header">Domov</a>
+                <a href="/forum">Razprave</a>
+                <a href="#media">Medija</a>
+                <a href="/merch">Merch Trgovina</a>
+                <a href="/igraj">Igraj</a>
+            </div>
+            <div class="footer-section">
+                <h3>Povezave</h3>
+                <a href="https://youtube.com" target="_blank">YouTube</a>
+            </div>
+            <div class="footer-section">
+                <h3>Podpora</h3>
+                <a href="/podpora#faq">FAQ</a>
+                <a href="/podpora#contact">Kontakt</a>
+                <a href="/podpora#policy">Politika Zasebnosti</a>
+                <a href="/podpora#policy">Pogoji Storitve</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 GreenFrog. Vse pravice pridržane.
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+        apiKey: "AIzaSyDJoxF53DdfRnAmUEAZirVRYZbmVUR2NEk",
+        authDomain: "greenfrog-3eded.firebaseapp.com",
+        projectId: "greenfrog-3eded",
+        storageBucket: "greenfrog-3eded.firebasestorage.app",
+        messagingSenderId: "1082470288033",
+        appId: "1:1082470288033:web:7251e9b3661d12bc9ebee0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+        const navRight = document.getElementById('navRight');
+
+        if (user) {
+        // User is logged in - show username and logout button
+        const username = user.displayName || 'Player';
+        navRight.innerHTML = `
+        <div class="user-display">
+            <img src="Images/PlayerIcon.png" class="user-icon" alt="User">
+            <span class="username">${username}</span>
+            <button class="logout-btn" id="logoutBtn">Izpis</button>
+        </div>
+        `;
+
+        // Add logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+        try {
+        await signOut(auth);
+        window.location.reload();
+        } catch (error) {
+        console.error('Logout error:', error);
+        }
+        });
+        } else {
+        // User is not logged in - show login link
+        navRight.innerHTML = `
+        <a href="/prijava" class="nav-link" id="loginLink">Prijava</a>
+        `;
+        }
+        });
+    </script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initial page load animations
+        gsap.from('.title-image', {
+        duration: 1.5,
+        y: -100,
+        opacity: 0,
+        ease: 'bounce.out',
+        delay: 0.3,
+        clearProps: 'transform'
+        });
+
+        // Parallax scrolling with GSAP - exclude title
+        const parallaxElements = document.querySelectorAll('.parallax-layer[data-speed]');
+        parallaxElements.forEach(element => {
+        const speed = parseFloat(element.getAttribute('data-speed'));
+
+        gsap.to(element, {
+        y: () => window.innerHeight * speed,
+        ease: 'none',
+        scrollTrigger: {
+        trigger: '.parallax-container',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+        }
+        });
+        });
+
+        // Mouse parallax effect
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
+        });
+
+        gsap.ticker.add(() => {
+        gsap.to('.layer-back', {
+        x: mouseX * 0.3,
+        duration: 1,
+        ease: 'power2.out'
+        });
+        gsap.to('.layer-mid', {
+        x: mouseX * 0.5,
+        duration: 0.8,
+        ease: 'power2.out'
+        });
+        gsap.to('.layer-front', {
+        x: mouseX * 0.7,
+        duration: 0.6,
+        ease: 'power2.out'
+        });
+        });
+
+        // Fog animation
+        gsap.to('.fog', {
+        opacity: 0.5,
+        duration: 10,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+        });
+
+        // Video section animation
+        gsap.from('.video-container', {
+        opacity: 0,
+        scale: 0.9,
+        duration: 1,
+        scrollTrigger: {
+        trigger: '.video-section',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        // Quote section animation
+        gsap.from('.quote-text', {
+        opacity: 0,
+        y: 50,
+        duration: 1.2,
+        scrollTrigger: {
+        trigger: '.quote-section',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        // About section animation
+        gsap.from('.about-content', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+        trigger: '.about-section',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        // Features section animations
+        gsap.from('.features-header', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+        trigger: '.features-section',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        gsap.from('.feature-row', {
+        opacity: 0,
+        y: 80,
+        duration: 1,
+        stagger: 0.3,
+        scrollTrigger: {
+        trigger: '.features-container',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        // Feature image hover effects
+        document.querySelectorAll('.feature-image-container').forEach(container => {
+        container.addEventListener('mouseenter', () => {
+        gsap.to(container, {
+        duration: 0.4,
+        scale: 1.02,
+        borderColor: '#ba9158',
+        ease: 'power2.out'
+        });
+        });
+        container.addEventListener('mouseleave', () => {
+        gsap.to(container, {
+        duration: 0.4,
+        scale: 1,
+        borderColor: '#77743b',
+        ease: 'power2.in'
+        });
+        });
+        });
+
+        // Gallery Carousel - Pixelated Glitch Transition
+        const gallerySlides = document.querySelectorAll('.gallery-slide');
+        const galleryDots = document.querySelectorAll('.gallery-dot');
+        let currentSlide = 0;
+        let isAnimating = false;
+
+        function showSlide(index) {
+        if (index === currentSlide || isAnimating) return;
+        isAnimating = true;
+
+        const oldSlide = gallerySlides[currentSlide];
+        const newSlide = gallerySlides[index];
+        const oldItems = oldSlide.querySelectorAll('.gallery-item');
+        const newItems = newSlide.querySelectorAll('.gallery-item');
+
+        // Update dots
+        galleryDots.forEach(dot => dot.classList.remove('active'));
+        galleryDots[index].classList.add('active');
+
+        // GSAP Timeline for pixel glitch transition
+        const tl = gsap.timeline({
+        onComplete: () => {
+        isAnimating = false;
+        }
+        });
+
+        // Glitch out old items - scatter in random directions
+        tl.to(oldItems, {
+        x: () => gsap.utils.random(-100, 100),
+        y: () => gsap.utils.random(-50, 50),
+        rotation: () => gsap.utils.random(-15, 15),
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.5,
+        stagger: {
+        each: 0.05,
+        from: "random"
+        },
+        ease: 'power2.in'
+        })
+        // Switch slides
+        .call(() => {
+        oldSlide.classList.remove('active');
+        oldSlide.style.display = 'none';
+        gsap.set(oldItems, { x: 0, y: 0, rotation: 0, opacity: 1, scale: 1 });
+
+        newSlide.style.display = 'block';
+        newSlide.classList.add('active');
+        })
+        // Glitch in new items - come from random positions
+        .fromTo(newItems,
+        {
+        x: () => gsap.utils.random(-100, 100),
+        y: () => gsap.utils.random(50, 100),
+        rotation: () => gsap.utils.random(-20, 20),
+        opacity: 0,
+        scale: 0.7
+        },
+        {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        stagger: {
+        each: 0.06,
+        from: "random"
+        },
+        ease: 'back.out(1.2)'
+        }
+        );
+
+        currentSlide = index;
+        }
+
+        // Dot click handlers
+        galleryDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+        showSlide(index);
+        });
+        });
+
+        // Gallery items initial animation on scroll
+        gsap.from('.gallery-slide.active .gallery-item', {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.5,
+        stagger: 0.1,
+        scrollTrigger: {
+        trigger: '.gallery-carousel',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        // Gallery hover effect
+        document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+        gsap.to(item, {
+        duration: 0.3,
+        scale: 1.05,
+        borderColor: '#c77b58',
+        ease: 'power2.out'
+        });
+        });
+        item.addEventListener('mouseleave', () => {
+        gsap.to(item, {
+        duration: 0.3,
+        scale: 1,
+        borderColor: '#ae5d40',
+        ease: 'power2.in'
+        });
+        });
+        });
+
+        // Play Now section animation
+        gsap.from('.play-now-content', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+        trigger: '.play-now-section',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        // Button hover animations
+        document.querySelectorAll('.play-button').forEach(button => {
+        button.addEventListener('mouseenter', () => {
+        gsap.to(button, {
+        duration: 0.3,
+        y: -3,
+        boxShadow: '0 6px 0 #4b3d44',
+        ease: 'power2.out'
+        });
+        });
+        button.addEventListener('mouseleave', () => {
+        gsap.to(button, {
+        duration: 0.3,
+        y: 0,
+        boxShadow: 'none',
+        ease: 'power2.in'
+        });
+        });
+        });
+
+        // Footer animation
+        gsap.from('.footer-section', {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        stagger: 0.15,
+        scrollTrigger: {
+        trigger: '.footer',
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
+        }
+        });
+
+        // Create fireflies
+        function createFirefly() {
+        const firefly = document.createElement('div');
+        firefly.className = 'fireflies';
+        firefly.style.left = Math.random() * 100 + '%';
+        firefly.style.top = Math.random() * 60 + '%';
+        document.querySelector('.parallax-container').appendChild(firefly);
+
+        gsap.to(firefly, {
+        y: -30,
+        x: 20,
+        opacity: 1,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: Math.random() * 3
+        });
+        }
+
+        for (let i = 0; i < 15; i++) {
+        createFirefly();
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+        window.scrollTo({
+        top: target.offsetTop,
+        behavior: 'smooth'
+        });
+        }
+        });
+        });
+
+        // Handle missing images
+        document.querySelectorAll('img').forEach(img => {
+        img.onerror = function() {
+        this.style.opacity = '0.3';
+        this.style.background = '#574852';
+        };
+        });
+
+        // Generate pixel transitions - OPTIMIZED with resize handling
+        function generatePixelTransition(container) {
+        // Clear existing content
+        container.innerHTML = '';
+
+        const rows = 15;
+        const blocksPerRow = Math.ceil(window.innerWidth / 8);
+
+        for (let i = 0; i < rows; i++) {
+        const row = document.createElement('div');
+        row.className = 'pixel-row';
+
+        const density = i / rows;
+
+        for (let j = 0; j < blocksPerRow; j++) {
+        const block = document.createElement('div');
+        block.className = 'pixel-block';
+
+        const horizontalNoise = Math.random() * 0.15;
+        const randomThreshold = density + horizontalNoise;
+
+        if (randomThreshold < 0.7) {
+        block.style.opacity = '1';
+        } else {
+        block.style.opacity = '0';
+        }
+
+        row.appendChild(block);
+        }
+
+        container.appendChild(row);
+        }
+        }
+
+        // Initial generation
+        document.querySelectorAll('.pixel-transition').forEach(transition => {
+        generatePixelTransition(transition);
+        });
+
+        // Regenerate on window resize (debounced for performance)
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+        document.querySelectorAll('.pixel-transition').forEach(transition => {
+        generatePixelTransition(transition);
+        });
+        }, 250);
+        });
+
+        // Gallery Modal Functionality
+        const galleryModal = document.getElementById('galleryModal');
+        const galleryModalClose = document.getElementById('galleryModalClose');
+        const galleryModalImage = document.getElementById('galleryModalImage');
+        const galleryCounter = document.getElementById('galleryCounter');
+        const galleryPrev = document.getElementById('galleryPrev');
+        const galleryNext = document.getElementById('galleryNext');
+
+        // Collect all gallery images
+        const galleryImages = [];
+        document.querySelectorAll('.gallery-img').forEach(img => {
+        galleryImages.push({
+        src: img.src,
+        alt: img.alt
+        });
+        });
+
+        let currentImageIndex = 0;
+
+        // Function to open gallery modal
+        function openGalleryModal(index) {
+        currentImageIndex = index;
+        updateGalleryModal();
+        galleryModal.classList.add('active');
+        }
+
+        // Function to update gallery modal content
+        function updateGalleryModal() {
+        const image = galleryImages[currentImageIndex];
+        galleryModalImage.src = image.src;
+        galleryModalImage.alt = image.alt;
+        galleryCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
+        }
+
+        // Function to navigate gallery
+        function navigateGallery(direction) {
+        currentImageIndex += direction;
+
+        // Loop around
+        if (currentImageIndex < 0) {
+        currentImageIndex = galleryImages.length - 1;
+        } else if (currentImageIndex >= galleryImages.length) {
+        currentImageIndex = 0;
+        }
+
+        updateGalleryModal();
+
+        // Animate image
+        gsap.fromTo(galleryModalImage,
+        { opacity: 0, x: direction * 50 },
+        { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' }
+        );
+        }
+
+        // Add click handlers to all gallery items
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+        item.addEventListener('click', () => {
+        openGalleryModal(index);
+        });
+        });
+
+        // Close modal
+        galleryModalClose.addEventListener('click', () => {
+        galleryModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside image
+        galleryModal.addEventListener('click', (e) => {
+        if (e.target === galleryModal) {
+        galleryModal.classList.remove('active');
+        }
+        });
+
+        // Navigation buttons
+        galleryPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateGallery(-1);
+        });
+
+        galleryNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateGallery(1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+        if (galleryModal.classList.contains('active')) {
+        if (e.key === 'ArrowLeft') {
+        navigateGallery(-1);
+        } else if (e.key === 'ArrowRight') {
+        navigateGallery(1);
+        } else if (e.key === 'Escape') {
+        galleryModal.classList.remove('active');
+        }
+        }
+        });
+
+        // Hamburger Menu Functionality
+        const hamburger = document.getElementById('hamburger');
+        const navbarMenu = document.getElementById('navbarMenu');
+
+        hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navbarMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link (mobile)
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+        if (window.innerWidth <= 968) {
+        hamburger.classList.remove('active');
+        navbarMenu.classList.remove('active');
+        }
+        });
+        });
+
+        // Close menu when clicking outside (mobile)
+        document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 968) {
+        if (!hamburger.contains(e.target) && !navbarMenu.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navbarMenu.classList.remove('active');
+        }
+        }
+        });
+    </script>
+</body>
+</html>
